@@ -11,7 +11,7 @@ alias grep='grep --color=auto'
 alias ..='cd ..'
 alias ...='cd .. && cd ..'
 alias tree="tree -aC"
-alias r="yazi"
+alias fm="yazi"
 alias cd="z"
 alias clip="xclip -selection clipboard"
 
