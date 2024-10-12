@@ -3,7 +3,7 @@ vim.opt.number = false
 vim.opt.relativenumber = false
 vim.opt.cursorline = true
 
-vim.opt.clipboard = "unnamedplus"
+vim.opt.clipboard = "unnamedplus,unnamed"
 
 vim.opt.wrap = false
 vim.opt.linebreak = true
@@ -21,7 +21,7 @@ vim.opt.infercase = true
 vim.opt.hlsearch = false
 
 -- Indent
-vim.opt.tabstop = 2
+vim.opt.tabstop = 4
 vim.opt.shiftwidth = 0
 vim.opt.smartindent = true
 
