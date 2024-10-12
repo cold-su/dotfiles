@@ -21,9 +21,7 @@ vim.opt.infercase = true
 vim.opt.hlsearch = false
 
 -- Indent
-vim.opt.tabstop = 4
-vim.opt.shiftwidth = 0
-vim.opt.smartindent = true
+vim.opt.smartindent = false
 
 -- Leader
 vim.g.mapleader = " "

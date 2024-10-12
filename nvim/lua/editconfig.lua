@@ -8,10 +8,10 @@ local function apply(bufnr, config)
 		charset = "utf-8",
 		end_of_line = "lf",
 		indent_style = "tab",
-		indent_size = 2,
+		indent_size = 4,
 		insert_final_newline = "true",
 		max_line_length = 120,
-		tab_width = 2,
+		tab_width = 4,
 		trim_trailing_whitespace = "true",
 	}
 
