@@ -145,35 +145,7 @@ end
 vim.opt.splitbelow = true
 vim.opt.splitright = true
 
-vim.keymap.set("n", "su", ":set nosplitbelow<CR>:split<CR>:set splitbelow<CR>", { silent = true })
-vim.keymap.set("n", "se", ":set splitbelow<CR>:split<CR>", { silent = true })
-vim.keymap.set("n", "sn", ":set nosplitright<CR>:vsplit<CR>:set splitright<CR>", { silent = true })
-vim.keymap.set("n", "si", ":set splitright<CR>:vsplit<CR>", { silent = true })
-
--- Closing
-vim.keymap.set("", "<C-S-M-w>c", on_close(""), { expr = true, silent = true })
-vim.keymap.set("i", "<C-S-M-w>c", on_close("i"), { expr = true, silent = true })
-vim.keymap.set("c", "<C-S-M-w>c", on_close("c"), { expr = true, silent = true })
-
--- Quitting
-vim.keymap.set("", "<C-S-M-w>q", ":qa<CR>", { silent = true })
-vim.keymap.set("i", "<C-S-M-w>q", "<Esc>:qa<CR>", { silent = true })
-vim.keymap.set("c", "<C-S-M-w>q", "<Esc>:qa<CR>", { silent = true })
-
--- Jumping
-map_set("ju", "WindowJumpTop", 1)
-map_set("je", "WindowJumpBottom", 1)
-map_set("jn", "WindowJumpLeft", 1)
-map_set("ji", "WindowJumpRight", 1)
-
--- Resizing
-map_set("ru", "WindowResizeTop", 2)
-map_set("re", "WindowResizeBottom", 2)
-map_set("rn", "WindowResizeLeft", 2)
-map_set("ri", "WindowResizeRight", 2)
-
--- Moving
-map_set("mu", "WindowMoveTop", 2)
-map_set("me", "WindowMoveBottom", 2)
-map_set("mn", "WindowMoveLeft", 2)
-map_set("mi", "WindowMoveRight", 2)
+vim.keymap.set("n", "sk", ":set nosplitbelow<CR>:split<CR>:set splitbelow<CR>", { silent = true })
+vim.keymap.set("n", "sj", ":set splitbelow<CR>:split<CR>", { silent = true })
+vim.keymap.set("n", "sh", ":set nosplitright<CR>:vsplit<CR>:set splitright<CR>", { silent = true })
+vim.keymap.set("n", "sl", ":set splitright<CR>:vsplit<CR>", { silent = true })
