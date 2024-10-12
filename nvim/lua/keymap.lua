@@ -3,12 +3,9 @@ local G = require('G')
 G.map({
     -- 设置s t 无效 ;=: ,重复上一次宏操作
     { 'n', 's',           '<nop>',            {} },
-    { 'n', ';',           ':',                {} },
-    { 'v', ';',           ':',                {} },
     { 'n', '+',           '<c-a>',            { noremap = true } },
     { 'n', '_',           '<c-x>',            { noremap = true } },
     { 'n', ',',           '@q',               { noremap = true } },
-    { 'n', '\\',          ':nohlsearch<CR>',  { noremap = true } },
 
     -- 快速删除
     { 'n', '<bs>',        '"_ciw',                                                        { noremap = true } },
@@ -37,15 +34,10 @@ G.map({
     { 'v', 'p',           'pgvy',             { noremap = true } },
     { 'v', 'P',           'Pgvy',             { noremap = true } },
 
-    -- S保存 Q退出
-    { 'n', 'S',           ':call v:lua.MagicSave()<cr>', { noremap = true, silent = true } },
-    { 'v', 'S',           ':call v:lua.MagicSave()<cr>', { noremap = true, silent = true } },
-    { 'n', 'Q',           ':q!<cr>',                     { noremap = true, silent = true } },
-
     -- VISUAL SELECT模式 s-tab tab左右缩进
     { 'v', '<',           '<gv',              { noremap = true } },
     { 'v', '>',           '>gv',              { noremap = true } },
-    { 'v', '<s-tab>',     '<gv',              { noremap = true } },
+	{ 'v', '<s-tab>',     '<gv',              { noremap = true } },
     { 'v', '<tab>',       '>gv',              { noremap = true } },
 
     -- 重写Shift + 左右
@@ -102,9 +94,7 @@ G.map({
     { 'n', '<m-d>',       '"_diw',            { noremap = true } },
     { 'n', '<m-r>',       '"_ciw',            { noremap = true } },
 
-    -- windows: sp 上下窗口 sv 左右分屏 sc关闭当前 so关闭其他 s方向切换
-    { 'n', 'sv',          ':vsp<cr><c-w>w',   { noremap = true } },
-    { 'n', 'sp',          ':sp<cr><c-w>w',    { noremap = true } },
+    -- windows: sc关闭当前 so关闭其他 s方向切换
     { 'n', 'sc',          ':close<cr>',       { noremap = true } },
     { 'n', 'so',          ':only<cr>',        { noremap = true } },
     { 'n', 's<Left>',     '<c-w>h',           { noremap = true } },

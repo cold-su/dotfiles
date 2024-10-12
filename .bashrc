@@ -13,6 +13,7 @@ alias ...='cd .. && cd ..'
 alias tree="tree -aC"
 alias r="yazi"
 alias cd="z"
+alias clip="xclip -selection clipboard"
 
 PS1='[\u@\h \W]\$ '
 
