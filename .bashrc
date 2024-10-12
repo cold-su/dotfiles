@@ -10,6 +10,9 @@ alias ll='ls -lh'
 alias grep='grep --color=auto'
 alias ..='cd ..'
 alias ...='cd .. && cd ..'
+alias tree="tree -aC"
+alias r="yazi"
+alias cd="z"
 
 PS1='[\u@\h \W]\$ '
 
