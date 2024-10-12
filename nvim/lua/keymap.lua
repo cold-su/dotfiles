@@ -133,9 +133,8 @@ G.map({
     { 'n', '-',           "foldlevel('.') > 0 ? 'za' : 'va{zf^'",             { noremap = true, silent = true, expr = true } },
     { 'v', '-',           'zf',                                               { noremap = true, silent = true } },
 
-    -- space 行首行尾跳转
-    { 'n', '<space>',     ':call v:lua.MagicMove()<cr>',                      { noremap = true, silent = true } },
-    { 'n', '0',           '%',                                                { noremap = true } },
+    -- 行首行尾跳转
+    { 'n', '0',     ':call v:lua.MagicMove()<cr>',                      { noremap = true, silent = true } },
     { 'v', '0',           '%',                                                { noremap = true } },
 
     -- 驼峰转换

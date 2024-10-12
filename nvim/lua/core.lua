@@ -25,6 +25,9 @@ vim.opt.tabstop = 4
 vim.opt.shiftwidth = 0
 vim.opt.smartindent = true
 
+-- Leader
+vim.g.mapleader = " "
+
 -- Folding
 vim.opt.foldlevel = 99
 vim.opt.foldmethod = "expr"
