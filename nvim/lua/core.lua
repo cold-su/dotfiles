@@ -3,7 +3,7 @@ vim.opt.number = false
 vim.opt.relativenumber = false
 vim.opt.cursorline = true
 
-vim.opt.clipboard = "unnamedplus,unnamed"
+vim.opt.clipboard = "unnamed,unnamedplus"
 
 vim.opt.wrap = false
 vim.opt.linebreak = true

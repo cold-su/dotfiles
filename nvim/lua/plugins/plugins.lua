@@ -36,21 +36,6 @@ local icons = {
 
 return {
 	{
-		"L3MON4D3/LuaSnip",
-		dependencies = {
-			"rafamadriz/friendly-snippets",
-			config = function()
-				vim.schedule(function() require("luasnip.loaders.from_vscode").lazy_load() end)
-			end,
-		},
-		lazy = true,
-		opts = {
-			history = true,
-			delete_check_events = "TextChanged",
-		},
-	},
-
-	{
 		"hrsh7th/nvim-cmp",
 		event = { "InsertEnter", "CmdlineEnter" },
 		dependencies = {
@@ -58,9 +43,6 @@ return {
 			{ "hrsh7th/cmp-buffer", lazy = true },
 			{ "hrsh7th/cmp-cmdline", lazy = true },
 			{ "hrsh7th/cmp-path", lazy = true },
-
-			-- For luasnip users
-			{ "saadparwaiz1/cmp_luasnip", lazy = true },
 		},
 		config = function()
 			local cmp = require("cmp")
@@ -154,6 +136,7 @@ return {
 		event = { "BufReadPost", "BufNewFile" },
 		config = true,
 	},
+
 	{
 		"windwp/nvim-autopairs",
 		event = "InsertEnter",
@@ -177,6 +160,7 @@ return {
 		end,
 		-- END TODO
 	},
+
 	{
 		"echasnovski/mini.comment",
 		dependencies = {
@@ -213,22 +197,6 @@ return {
 		opts = {
 			use_default_keymaps = false,
 			max_join_length = 999,
-		},
-	},
-
-	-- Incremental LSP renaming based on Neovim's command-preview feature
-	{
-		"smjonas/inc-rename.nvim",
-		keys = {
-			{
-				"<leader>r",
-				function() return ":IncRename " .. vim.fn.expand("<cword>") end,
-				silent = true,
-				expr = true,
-			},
-		},
-		opts = {
-			preview_empty_name = true,
 		},
 	},
 
