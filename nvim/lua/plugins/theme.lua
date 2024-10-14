@@ -57,6 +57,21 @@ return {
 				treesitter = true,
 				treesitter_context = true,
 			},
+			styles = { -- Handles the styles of general hi groups (see `:h highlight-args`):
+				comments = { "italic" }, -- Change the style of comments
+				conditionals = { "italic" },
+				loops = {},
+				functions = {},
+				keywords = { "italic" },
+				strings = {},
+				variables = {},
+				numbers = {},
+				booleans = {},
+				properties = {},
+				types = {},
+				operators = {},
+				-- miscs = {}, -- Uncomment to turn off hard-coded styles
+			},
 		},
 		config = function(_, opts)
 			require("catppuccin").setup(opts)

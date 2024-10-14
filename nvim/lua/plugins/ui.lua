@@ -1,4 +1,9 @@
 return {
+	{
+		"yaocccc/nvim-hlchunk",-- 高亮{}范围
+		event = { 'CursorMoved', 'CursorMovedI' },
+	},
+
 	-- Status
 	{
 		"nvim-lualine/lualine.nvim",

@@ -81,6 +81,7 @@ return {
 						local truncated = vim.fn.strcharpart(item.abbr, 0, 30)
 						if truncated ~= item.abbr then
 							item.abbr = truncated .. "…"
+
 						end
 
 						return item

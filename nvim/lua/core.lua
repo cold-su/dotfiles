@@ -1,7 +1,7 @@
 -- Editing
 vim.opt.number = false
 vim.opt.relativenumber = false
-vim.opt.cursorline = true
+vim.opt.cursorline = false
 
 vim.opt.clipboard = "unnamed,unnamedplus"
 
@@ -119,3 +119,4 @@ vim.api.nvim_create_autocmd("BufRead", {
         })
     end,
 })
+
