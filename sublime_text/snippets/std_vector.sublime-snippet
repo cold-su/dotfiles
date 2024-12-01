@@ -1,6 +1,6 @@
 <snippet>
 	<content><![CDATA[
-vector
+sdt::vector
 ]]></content>
 	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
 	<tabTrigger>v</tabTrigger>
