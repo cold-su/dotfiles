@@ -20,7 +20,7 @@
 LINKS=(
   # 在此处注册你的配置,例如:
   # ".bashrc:$HOME/.bashrc"
-  "oh-my-rime:$HOME/.local/share/fcitx5/rime"
+  "rime-ice:$HOME/.local/share/fcitx5/rime"
   "bashrc:$HOME/.bashrc"
   "mpv:$HOME/.config/mpv"
 )
