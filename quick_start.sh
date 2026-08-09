@@ -21,7 +21,7 @@ LINKS=(
   # 在此处注册你的配置,例如:
   # ".bashrc:$HOME/.bashrc"
   "rime-ice:$HOME/.local/share/fcitx5/rime"
-  "bashrc:$HOME/.bashrc"
+  ".bashrc:$HOME/.bashrc"
   "mpv-config/portable_config:$HOME/.config/mpv"
 )
 
