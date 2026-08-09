@@ -22,7 +22,7 @@ LINKS=(
   # ".bashrc:$HOME/.bashrc"
   "rime-ice:$HOME/.local/share/fcitx5/rime"
   "bashrc:$HOME/.bashrc"
-  "mpv:$HOME/.config/mpv"
+  "mpv-config/portable_config:$HOME/.config/mpv"
 )
 
 # ============================================================================
