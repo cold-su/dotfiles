@@ -3,3 +3,4 @@
 *.github*
 *.ide*
 .cnb.yml
+*.log
