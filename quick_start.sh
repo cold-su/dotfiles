@@ -22,6 +22,7 @@ LINKS=(
   # ".bashrc:$HOME/.bashrc"
   "oh-my-rime:$HOME/.local/share/fcitx5/rime"
   "bashrc:$HOME/.bashrc"
+  "mpv:$HOME/.config/mpv"
 )
 
 # ============================================================================
