@@ -4,3 +4,6 @@
 [submodule "mpv-config.git"]
 	path = mpv-config
 	url = https://github.com/Zabooby/mpv-config.git
+[submodule "nvim.git"]
+	path = nvim
+	url = https://github.com/yaocccc/nvim.git

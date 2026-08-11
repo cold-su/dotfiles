@@ -23,6 +23,7 @@ LINKS=(
   "rime-ice:$HOME/.local/share/fcitx5/rime"
   ".bashrc:$HOME/.bashrc"
   "mpv-config/portable_config:$HOME/.config/mpv"
+  "nvim:$HOME/.config/nvim"
 )
 
 # ============================================================================
