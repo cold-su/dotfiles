@@ -24,6 +24,7 @@ LINKS=(
   ".bashrc:$HOME/.bashrc"
   "mpv-config/portable_config:$HOME/.config/mpv"
   "nvim:$HOME/.config/nvim"
+  ".gitconfig:$HOME/.gitconfig"
 )
 
 # ============================================================================

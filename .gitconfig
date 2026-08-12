@@ -1,0 +1,14 @@
+[http]
+	proxy = http://127.0.0.1:10808
+[https]
+	proxy = http://127.0.0.1:10808
+[user]
+	email = resung@qq.com
+	name = coldsu
+	signingkey = 306517308+coldsyu@users.noreply.github.com
+[credential]
+	helper = store
+[commit]
+	gpgsign = true
+[core]
+	editor = nvim
