@@ -30,6 +30,9 @@ if [[ -t 1 ]] && [[ -z ${NO_COLOR:-} ]]; then
     c_green=$'\033[32m'
     c_yellow=$'\033[33m'
     c_red=$'\033[31m'
+    # ls --color=auto 默认配色：目录=粗体蓝，软链接=粗体青
+    c_dir=$'\033[1;34m'
+    c_link=$'\033[1;36m'
 else
     c_reset=''
     c_bold=''
@@ -37,6 +40,8 @@ else
     c_green=''
     c_yellow=''
     c_red=''
+    c_dir=''
+    c_link=''
 fi
 
 # --- locale 检测 ------------------------------------------------------------
@@ -125,9 +130,13 @@ fi
 msg "$(L "找到 ${#repos[@]} 个仓库；提交信息：${stamp}" "Found ${#repos[@]} repos; commit message: ${stamp}")"
 for r in "${repos[@]}"; do
     if [[ -L "$r" ]]; then
-        printf '  %s %s\n' "${c_dim}•${c_reset} $(basename -- "$r")" "${c_dim}-> $(readlink -- "$r")${c_reset}"
+        printf '  %s %s %s %s\n' \
+            "${c_dim}•${c_reset}" \
+            "${c_link}$(basename -- "$r")${c_reset}" \
+            '->' \
+            "$(readlink -- "$r")"
     else
-        printf '  %s\n' "${c_dim}•${c_reset} $(basename -- "$r")"
+        printf '  %s %s\n' "${c_dim}•${c_reset}" "${c_dir}$(basename -- "$r")${c_reset}"
     fi
 done
 printf '\n'
