@@ -8,5 +8,4 @@
     ignore = all
 [submodule "nvim.git"]
 	path = nvim
-	url = https://github.com/yaocccc/nvim.git
-    ignore = all
+	url = https://github.com/cold-su/nvim.git
