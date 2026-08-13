@@ -25,6 +25,7 @@ LINKS=(
   "mpv-config/portable_config:$HOME/.config/mpv"
   "nvim:$HOME/.config/nvim"
   ".gitconfig:$HOME/.gitconfig"
+  "kitty:$HOME/.config/kitty"
 )
 
 # ============================================================================

@@ -202,8 +202,7 @@ for repo in "${repos[@]}"; do
         continue
     fi
 
-    # 记录本次变更的文件数：新增/修改/删除/改名分别计数（开启 rename 检测，
-    # 改名按一个 rename 计入，不再拆成删除+新增）
+    # 记录本次变更的文件数：新增/修改/删除/改名分别计数
     statuses=$(git -C "$repo" diff --cached --name-status)
     added=$(printf '%s\n' "${statuses}" | grep -c '^A' || true)
     modified=$(printf '%s\n' "${statuses}" | grep -c '^[MT]' || true)
