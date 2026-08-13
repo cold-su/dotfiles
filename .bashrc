@@ -9,7 +9,7 @@
 # Prompt
 #
 # 布局(两行式,长命令有整行输入空间):
-#   ╭─ 12:34:56 user@host ~/path ⎇ branch +6 -6 ?1 ↑1 ✗127
+#   ╭─ 12:34:56 user@host ~/path branch +6 -6 ?1 ↑1 ✗127
 #   ╰─ $
 # 主题:Catppuccin Mocha(24 位真彩色,需终端支持 truecolor)
 # 可调开关(修改后执行 reps1 立即生效):
@@ -37,7 +37,7 @@ esac
 # 长路径只显示最后 n 级目录
 PROMPT_DIRTRIM=12
 
-# git 状态段:⎇ 分支 +新增行 -删除行 ?未跟踪 ↑领先 ↓落后
+# git 状态段:分支 +新增行 -删除行 ?未跟踪 ↑领先 ↓落后
 # 分支名颜色随仓库状态变化:干净=绿,有改动=黄;非 git 仓库输出为空
 __git_status() {
     [ "${PS1_GIT:-1}" = 1 ] || return 0
@@ -45,7 +45,6 @@ __git_status() {
 
     # 注意:这些颜色会被 \$(__git_status) 命令替换进 PS1,此时 readline 已不再
     # 解析 \[ \],必须直接用其内部字节 \001(SOH)/\002(STX) 包裹真实 ESC 转义
-    local c_git=$'\001\e[38;2;203;166;247m\002'        # ⎇ 图标(Mauve  #cba6f7)
     local c_clean=$'\001\e[01;38;2;166;227;161m\002'   # 干净分支(Green  #a6e3a1)
     local c_dirty=$'\001\e[01;38;2;249;226;175m\002'   # 有改动分支(Yellow #f9e2af)
     local c_add=$'\001\e[01;38;2;166;227;161m\002'     # + 新增行(Green  #a6e3a1)
@@ -74,7 +73,7 @@ __git_status() {
     local c_br=$c_clean
     [ $((added + deleted + untracked)) -gt 0 ] && c_br=$c_dirty
 
-    local out=" $c_git⎇$c_br$branch$reset"
+    local out=" $c_br$branch$reset"
     [ "$added"     -gt 0 ] && out="$out $c_add+$added"
     [ "$deleted"   -gt 0 ] && out="$out $c_del-$deleted"
     [ "$untracked" -gt 0 ] && out="$out $c_unt?$untracked"
