@@ -9,7 +9,7 @@
 # Prompt
 #
 # 布局(两行式,长命令有整行输入空间):
-#   ╭─ 12:34:56 user@host ~/path ⎇ branch +1 ~2 ?1 ↑1 ✗127
+#   ╭─ 12:34:56 user@host ~/path ⎇ branch +6 -6 ?1 ↑1 ✗127
 #   ╰─ $
 # 主题:Catppuccin Mocha(24 位真彩色,需终端支持 truecolor)
 # 可调开关(修改后执行 reps1 立即生效):
@@ -34,10 +34,10 @@ case ";$PROMPT_COMMAND;" in
     *) PROMPT_COMMAND="__ps1_preexec${PROMPT_COMMAND:+;$PROMPT_COMMAND}" ;;
 esac
 
-# 长路径只显示最后 3 级目录,如 ~/a/b/c/d/e 显示为 ~/c/d/e
-PROMPT_DIRTRIM=3
+# 长路径只显示最后 n 级目录
+PROMPT_DIRTRIM=12
 
-# git 状态段:⎇ 分支 +已暂存 ~未暂存 ?未跟踪 ↑领先 ↓落后
+# git 状态段:⎇ 分支 +新增行 -删除行 ?未跟踪 ↑领先 ↓落后
 # 分支名颜色随仓库状态变化:干净=绿,有改动=黄;非 git 仓库输出为空
 __git_status() {
     [ "${PS1_GIT:-1}" = 1 ] || return 0
@@ -48,7 +48,9 @@ __git_status() {
     local c_git=$'\001\e[38;2;203;166;247m\002'        # ⎇ 图标(Mauve  #cba6f7)
     local c_clean=$'\001\e[01;38;2;166;227;161m\002'   # 干净分支(Green  #a6e3a1)
     local c_dirty=$'\001\e[01;38;2;249;226;175m\002'   # 有改动分支(Yellow #f9e2af)
-    local c_cnt=$'\001\e[01;38;2;243;139;168m\002'     # +/~/? 计数(Red    #f38ba8)
+    local c_add=$'\001\e[01;38;2;166;227;161m\002'     # + 新增行(Green  #a6e3a1)
+    local c_del=$'\001\e[01;38;2;243;139;168m\002'     # - 删除行(Red    #f38ba8)
+    local c_unt=$'\001\e[01;38;2;249;226;175m\002'     # ? 未追踪(Yellow #f9e2af)
     local c_up=$'\001\e[01;38;2;250;179;135m\002'      # ↑↓ 领先/落后(Peach  #fab387)
     local reset=$'\001\e[0m\002'
 
@@ -57,26 +59,25 @@ __git_status() {
     [ -n "$branch" ] || branch=$(git rev-parse --short HEAD 2>/dev/null) # detached HEAD
     [ -n "$branch" ] || return 0
 
-    local staged=0 unstaged=0 untracked=0 line
+    # 相对 HEAD 的新增/删除行数(含已暂存与未暂存,二进制文件跳过)
+    local added=0 deleted=0 untracked=0 a d line
+    while IFS=$'\t' read -r a d _; do
+        [ "$a" = '-' ] && continue
+        added=$((added + a))
+        deleted=$((deleted + d))
+    done < <(git diff HEAD --numstat 2>/dev/null)
+    # 未追踪文件数
     while IFS= read -r line; do
-        case "${line:0:1}" in
-            '?'|' ') ;;
-            *) staged=$((staged + 1)) ;;
-        esac
-        case "${line:1:1}" in
-            '?'|' ') ;;
-            *) unstaged=$((unstaged + 1)) ;;
-        esac
         [ "${line:0:1}" = '?' ] && untracked=$((untracked + 1))
     done < <(git status --porcelain 2>/dev/null)
 
     local c_br=$c_clean
-    [ $((staged + unstaged + untracked)) -gt 0 ] && c_br=$c_dirty
+    [ $((added + deleted + untracked)) -gt 0 ] && c_br=$c_dirty
 
     local out=" $c_git⎇$c_br$branch$reset"
-    [ "$staged"    -gt 0 ] && out="$out $c_cnt+$staged"
-    [ "$unstaged"  -gt 0 ] && out="$out $c_cnt~$unstaged"
-    [ "$untracked" -gt 0 ] && out="$out $c_cnt?$untracked"
+    [ "$added"     -gt 0 ] && out="$out $c_add+$added"
+    [ "$deleted"   -gt 0 ] && out="$out $c_del-$deleted"
+    [ "$untracked" -gt 0 ] && out="$out $c_unt?$untracked"
 
     # 与 upstream 的领先/落后
     local ahead=0 behind=0 counts
@@ -92,10 +93,10 @@ __git_status() {
     printf '%s' "$out"
 }
 
-# 上一条命令退出码:非零时红色 ✗N,否则不占空间
+# 上一条命令退出码:非零时红色 N,否则不占空间
 __ps1_exitcode() {
     [ "$__ps1_exit" -ne 0 ] || return 0
-    printf '\001\e[01;38;2;243;139;168m\002✗%d\001\e[0m\002 ' "$__ps1_exit"
+    printf '\001\e[01;38;2;243;139;168m\002 [%d]\001\e[0m\002 ' "$__ps1_exit"
 }
 
 __ps1() {
