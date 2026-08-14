@@ -22,10 +22,15 @@ __ps1_exit=0
 
 __ps1_preexec() {
     __ps1_exit=$?
-    # 终端标题:user@host: ~/path(tmux/screen 交给它们自己管理)
     case "$TERM" in
         screen*|tmux*) : ;;
-        *) printf '\033]0;%s@%s: %s\007' "$USER" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}" ;;
+        *)
+            if [ "$TERM" = xterm-kitty ] || [ -n "${KITTY_WINDOW_ID:-}" ] || [ -n "${KITTY_PID:-}" ]; then
+                printf '\033]0;%s\007' "${PWD/#$HOME/\~}"
+            else
+                printf '\033]0;%s@%s: %s\007' "$USER" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"
+            fi
+            ;;
     esac
 }
 # 追加而非覆盖其他脚本设置的 PROMPT_COMMAND,并防止重复添加
