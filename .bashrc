@@ -22,12 +22,15 @@ __ps1_exit=0
 
 __ps1_preexec() {
     __ps1_exit=$?
+    # 终端标题
+    # - tmux/screen:交给它们自己管理
+    # - kitty:完全交给 kitty 的 shell integration 控制(提示符时显示 pwd,
+    #   运行命令时显示命令名),bash 不插手,避免两个标题源互相覆盖而闪烁
+    # - 其他终端:user@host: ~/path
     case "$TERM" in
         screen*|tmux*) : ;;
         *)
-            if [ "$TERM" = xterm-kitty ] || [ -n "${KITTY_WINDOW_ID:-}" ] || [ -n "${KITTY_PID:-}" ]; then
-                printf '\033]0;%s\007' "${PWD/#$HOME/\~}"
-            else
+            if [ "$TERM" != xterm-kitty ] && [ -z "${KITTY_WINDOW_ID:-}" ] && [ -z "${KITTY_PID:-}" ]; then
                 printf '\033]0;%s@%s: %s\007' "$USER" "${HOSTNAME%%.*}" "${PWD/#$HOME/\~}"
             fi
             ;;
