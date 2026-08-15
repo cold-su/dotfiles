@@ -5,11 +5,20 @@
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
+alias grep='grep --color=auto'
+alias l='ls -alh'
+alias g='lazygit'
+alias ls='ls --color=auto'
+
+export all_proxy="socks5://127.0.0.1:10808"
+export http_proxy="http://127.0.0.1:10808"
+export https_proxy="http://127.0.0.1:10808"
+
 # ============================================================
 # Prompt
 #
 # 布局(两行式,长命令有整行输入空间):
-#   ╭─ 12:34:56 user@host ~/path branch +6 -6 ?1 ↑1 ✗127
+#   ╭─ 12:34:56 user@host ~/path branch +6 -6 ?1 ↑1 [127]
 #   ╰─ $
 # 主题:Catppuccin Mocha(24 位真彩色,需终端支持 truecolor)
 # 可调开关(修改后执行 reps1 立即生效):
@@ -100,12 +109,6 @@ __git_status() {
     printf '%s' "$out"
 }
 
-# 上一条命令退出码:非零时红色 N,否则不占空间
-__ps1_exitcode() {
-    [ "$__ps1_exit" -ne 0 ] || return 0
-    printf '\001\e[01;38;2;243;139;168m\002 [%d]\001\e[0m\002 ' "$__ps1_exit"
-}
-
 __ps1() {
     # Catppuccin Mocha 调色板
     local dim='\[\e[38;2;108;112;134m\]'      # 框架/分隔符(Overlay0 #6c7086)
@@ -132,7 +135,7 @@ __ps1() {
     fi
 
     # 第一行:信息行
-    printf '%s\n' "$dim╭─ $time$user$dim@$host$dim $cb\\w$reset\$(__git_status)\$(__ps1_exitcode)"
+    printf '%s\n' "$dim╭─ $time$user$dim@$host$dim $cb\\w$reset\$(__git_status)"
     # 第二行:输入行(root 红 # / 普通绿 $)
     local prompt
     [ $EUID -eq 0 ] && prompt="$cr\\$" || prompt="$cg\\$"
@@ -145,14 +148,6 @@ reps1() { PS1="$(__ps1)"; }
 # 续行提示符(多行命令)
 export PS2="\[\e[38;2;108;112;134m\]… \[\e[0m\]"
 
-
-alias ls='ls --color=auto'
-alias grep='grep --color=auto'
-alias l='ls -alh'
-
-export all_proxy="socks5://127.0.0.1:10808"
-export http_proxy="http://127.0.0.1:10808"
-export https_proxy="http://127.0.0.1:10808"
 
 # export PATH="$HOME/.cargo/bin:$PATH"
 
