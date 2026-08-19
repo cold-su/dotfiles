@@ -25,6 +25,7 @@ LINKS=(
 	".gitconfig:$HOME/.gitconfig"
 	"kitty:$HOME/.config/kitty"
 	"dolphinui.rc:$HOME/.local/share/kxmlgui5/dolphin/dolphinui.rc"
+	".zshrc:$HOME/.zshrc"
 )
 
 # ============================================================================

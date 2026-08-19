@@ -12,3 +12,5 @@
 	gpgsign = true
 [core]
 	editor = nvim
+[log]
+	date = format:%Y/%m/%d %H:%M:%S
