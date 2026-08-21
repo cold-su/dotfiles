@@ -31,6 +31,7 @@ static const char *const autostart[] = {
     // "foot", "--server", NULL,
     // "fnott", NULL,
 	"fcitx5", NULL,
+	"sparkle", NULL,
     NULL  // 数组必须以 NULL 结尾
 };
 
