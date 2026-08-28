@@ -1,6 +1,7 @@
 # dotfiles
 
 ```bash
+sudo pacman -S --needed ly kitty neovim mpv zsh fcitx5 fcitx5-rime
 git clone https://github.com/cold-su/dotfiles.git --recurse-submodules
 cd ./dotfiles
 ./quick_start.sh
