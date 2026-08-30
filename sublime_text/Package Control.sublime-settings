@@ -1,0 +1,30 @@
+{
+	"bootstrapped": true,
+	"installed_packages":
+	[
+		"Catppuccin color schemes",
+		"CompetitiveProgrammingParser",
+		"CppFastOlympicCoding",
+		"LSP",
+		"LSP-clangd",
+		"Origami",
+		"Package Control",
+		"Terminus",
+		"TreeSitter",
+	],
+	"in_process_packages":
+	[
+	],
+	"channels": [
+		// channel_v4 for python 3.8 compatible libraries to enable plugins
+		// to migrate to python 3.8 until packagecontrol.io supports new scheme.
+		// Note: Must always be located before default channel in the list!
+		// Repo: https://github.com/packagecontrol/channel
+		"https://packagecontrol.github.io/channel/channel_v4.json",
+		// default channel for packages
+		// Repo: https://github.com/wbond/package_control_channel
+		"https://packagecontrol.io/channel_v3.json"
+	],
+	"http_proxy": "http://127.0.0.1:10808",
+	"https_proxy": "https://127.0.0.1:10808",
+}

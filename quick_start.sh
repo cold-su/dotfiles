@@ -26,6 +26,7 @@ LINKS=(
 	"kitty:$HOME/.config/kitty"
 	"dolphinui.rc:$HOME/.local/share/kxmlgui5/dolphin/dolphinui.rc"
 	".zshrc:$HOME/.zshrc"
+	"sublime_text:$HOME/.config/sublime-text/Packages/User"
 )
 
 # ============================================================================
