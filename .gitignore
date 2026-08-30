@@ -4,3 +4,4 @@
 *.ide*
 .cnb.yml
 *.log
+*.bak
