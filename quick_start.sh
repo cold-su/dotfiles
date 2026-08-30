@@ -39,49 +39,13 @@ REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
 BACKUP_SUFFIX=".bak"
 prog=${0##*/}
 
-# --- 输出样式 ---------------------------------------------------------------
-# 仅在终端(tty)上着色;遵循 NO_COLOR。
-if [[ -t 1 ]] && [[ -z ${NO_COLOR:-} ]]; then
-	c_reset=$'\033[0m'
-	c_bold=$'\033[1m'
-	c_dim=$'\033[2m'
-	c_green=$'\033[32m'
-	c_yellow=$'\033[33m'
-	c_red=$'\033[31m'
-else
-	c_reset=''; c_bold=''; c_dim=''; c_green=''; c_yellow=''; c_red=''
-fi
-
-# --- locale 检测 ------------------------------------------------------------
-# 优先级:SYNC_LANG(显式指定)> LANGUAGE > LC_ALL > LC_MESSAGES > LANG;
-# 语言代码以 zh 开头(如 zh_CN.UTF-8、zh-TW)即用中文,其余默认英文。
-lang=${SYNC_LANG:-}
-if [[ -n "$lang" ]]; then
-	[[ ${lang,,} == zh* ]] && lang=zh || lang=en
-else
-	lang=en
-	for v in "${LANGUAGE:-}" "${LC_ALL:-}" "${LC_MESSAGES:-}" "${LANG:-}"; do
-		if [[ -n "$v" && ${v,,} == zh* ]]; then
-			lang=zh
-			break
-		fi
-	done
-fi
-
-# 双语消息:$1=中文,$2=英文
-L() { if [[ "$lang" == zh ]]; then printf '%s' "$1"; else printf '%s' "$2"; fi; }
-
-# 全局消息:带 prog 前缀
-msg()			{ printf '%s\n' "${c_bold}${prog}${c_reset}: $*"; }
-section() { printf '%s\n' "${c_bold}$*${c_reset}"; }
-warn()		{ printf '%s\n' "${c_bold}${prog}${c_reset}: ${c_yellow}$(L '警告' 'Warning')${c_reset}: $*" >&2; }
-err()			{ printf '%s\n' "${c_bold}${prog}${c_reset}: ${c_red}$(L '错误' 'Error')${c_reset}: $*" >&2; }
-die()			{ err "$*"; exit 1; }
-
-# 条目级消息:标题行已标明当前条目,不再重复 prog 前缀
-say()			 { printf '%s\n' "$*"; }
-say_skip() { printf '%s\n' "${c_yellow}$(L '跳过' 'Skipped')${c_reset}: $*"; }
-say_ok()	 { printf '%s\n' "${c_green}$(L '完成' 'Done')${c_reset} $*"; }
+# --- 输出函数 ---------------------------------------------------------------
+# 简洁输出:只显示实际发生的操作,跳过项静默
+info()		{ printf '%s\n' "$*"; }
+warn()		{ printf '%s\n' "警告: $*" >&2; }
+err()		{ printf '%s\n' "错误: $*" >&2; }
+die()		{ err "$*"; exit 1; }
+action()	{ printf '%s\n' "$*"; }   # 实际执行的操作描述
 
 DRY_RUN=0
 UNINSTALL=0
@@ -107,76 +71,72 @@ while [[ $# -gt 0 ]]; do
 		-n|--dry-run)		DRY_RUN=1 ;;
 		-u|--uninstall) UNINSTALL=1 ;;
 		-h|--help)			usage; exit 0 ;;
-		*) die "$(L '未知参数' 'Unknown argument'): $1（$(L '可用 --help 查看用法' 'use --help for usage')）" ;;
+		*) die "未知参数: $1（使用 --help 查看用法）" ;;
 	esac
 	shift
 done
 
-# 统一执行入口:dry-run 时只打印,不执行
+# 执行命令:dry-run 时不执行
 run() {
-	if (( DRY_RUN )); then
-		printf '		[dry-run] %s\n' "$*"
-	else
+	if (( ! DRY_RUN )); then
 		"$@"
 	fi
 }
 
-# 就近备份:把目标原样移动到同目录的 <名称>.bak
-# .bak 已被占用时追加时间戳,绝不覆盖已有备份
+# 就近备份:目标移动到同目录 <名称>.bak;若 .bak 已占用则追加时间戳
 backup() {
 	local dst="$1" bak
 	bak="${dst}${BACKUP_SUFFIX}"
 	if [[ -e "$bak" || -L "$bak" ]]; then
 		bak="${dst}${BACKUP_SUFFIX}.$(date +%Y%m%d%H%M%S)"
 	fi
-	say "$(L "备份 ${dst} -> ${bak}" "Backing up ${dst} -> ${bak}")"
+	action "备份 ${dst} -> ${bak}"
 	run mv -- "$dst" "$bak"
 }
 
-# 部署单个条目:仓库内文件 -> $HOME 下的符号链接
+# 部署单个条目
 deploy() {
 	local rel="$1" dst="$2"
 	local src="$REPO_DIR/$rel"
 
-	# 源文件必须存在于仓库中
+	# 源必须存在
 	if [[ ! -e "$src" && ! -L "$src" ]]; then
-		warn "$(L "跳过 '${rel}'：仓库中不存在该文件" "Skipping '${rel}': not found in the repo")"
+		warn "跳过 '${rel}'：仓库中不存在该文件"
 		return 1
 	fi
-	# 目标必须位于 $HOME 下(规范化后检查,防止 .. 越界),全程不需要任何权限
-	# 注意:只解析目录部分,不解析链接本身,否则已部署的链接会被误判为越界
+
+	# 目标必须位于 $HOME 下(防止越界)
 	local norm_home norm_dst
 	norm_home="$(realpath -m -- "$HOME")"
 	norm_dst="$(realpath -m -- "$(dirname -- "$dst")")/$(basename -- "$dst")"
 	if [[ "$norm_dst" != "$norm_home" && "$norm_dst" != "$norm_home"/* ]]; then
-		warn "$(L "跳过 '${rel}'：目标 '${dst}' 不在 \$HOME 下，拒绝部署到系统路径" "Skipping '${rel}': target '${dst}' is outside \$HOME, refusing to deploy to system paths")"
+		warn "跳过 '${rel}'：目标 '${dst}' 不在 \$HOME 下"
 		return 1
 	fi
 
-	# 确保目标目录存在
+	# 确保目标目录存在(不输出)
 	local dst_dir
 	dst_dir="$(dirname -- "$dst")"
 	if [[ ! -d "$dst_dir" ]]; then
-		say "$(L "创建目录 ${dst_dir}" "Creating directory ${dst_dir}")"
 		run mkdir -p "$dst_dir"
 	fi
 
-	# 处理目标已被占用的情况
+	# 目标已是正确链接:静默跳过
 	if [[ -L "$dst" ]]; then
 		local cur
 		cur="$(readlink -- "$dst")"
 		if [[ "$cur" == "$src" ]]; then
-			say_skip "$(L "已部署：${dst} -> ${src}" "Already deployed: ${dst} -> ${src}")"
 			return 0
 		fi
-		warn "$(L "目标 ${dst} 是符号链接但指向别处（${cur}），将备份后替换" "Target ${dst} is a symlink pointing elsewhere (${cur}); backing up and replacing")"
+		# 指向别处:备份后替换
 		backup "$dst"
 	elif [[ -e "$dst" ]]; then
-		warn "$(L "目标 ${dst} 已存在，按就近原则备份后替换" "Target ${dst} already exists; backing up before replacing")"
+		# 存在普通文件/目录:备份后替换
 		backup "$dst"
 	fi
 
-	say_ok "$(L "链接 ${dst} -> ${src}" "Linked ${dst} -> ${src}")"
+	# 执行链接
+	action "链接 ${dst} -> ${src}"
 	run ln -s -- "$src" "$dst"
 }
 
@@ -186,70 +146,63 @@ uninstall() {
 		local rel="${entry%%:*}"
 		local dst="${entry#*:}"
 		local src="$REPO_DIR/$rel"
+
 		if [[ -L "$dst" ]] && [[ "$(readlink -- "$dst")" == "$src" ]]; then
-			say_ok "$(L "移除链接 ${dst}" "Removed link ${dst}")"
+			action "移除链接 ${dst}"
 			run rm -- "$dst"
-			
-			# ---------- 改进：查找所有备份，取最新的恢复 ----------
-			# 备份文件可能为 ${dst}.bak 或 ${dst}.bak.时间戳
-			local latest_bak=""
-			# 使用 ls -t 按修改时间排序，取第一个（最新）
-			# 2>/dev/null 忽略无匹配的情况
+
+			# 查找最新备份并恢复
+			local latest_bak
 			latest_bak="$(ls -t "${dst}.bak"* 2>/dev/null | head -n1)"
 			if [[ -n "$latest_bak" ]]; then
+				action "从备份 ${latest_bak} 还原 ${dst}"
 				run mv -- "$latest_bak" "$dst"
-				say "$(L "已从备份 ${latest_bak} 还原" "Restored from backup ${latest_bak}")"
 			else
-				warn "$(L "未找到 ${dst} 的备份文件，无法还原" "No backup file found for ${dst}, cannot restore")"
+				warn "未找到 ${dst} 的备份文件，无法还原"
 			fi
-			# ----------------------------------------------------
 			(( removed += 1 ))
-		else
-			say_skip "$(L "${dst}（不存在或不是本脚本创建的链接）" "${dst} (missing or not created by this script)")"
 		fi
 	done
-	if (( removed > 0 )); then
-		say "$(L "已移除 ${removed} 个链接。" "Removed ${removed} links.")"
+
+	if (( removed == 0 )); then
+		info "没有可移除的链接"
 	fi
 }
 
 main() {
-	# 严禁以 root 运行:所有操作都应在普通用户自己的目录下完成
+	# 禁止 root 运行
 	if (( EUID == 0 )); then
-		die "$(L "请以普通用户运行本脚本（当前是 root）。它只操作 \$HOME，不需要也不允许任何权限。" "Run as a normal user (currently root). It only touches \$HOME and requires no privileges.")"
+		die "请以普通用户运行本脚本（当前是 root）"
 	fi
 
 	if (( ${#LINKS[@]} == 0 )); then
-		warn "$(L "配置注册表（LINKS）为空，没有可部署的配置。" "The LINKS registry is empty; nothing to deploy.")"
-		say "$(L "添加新配置的步骤：" "To add a new config:")"
-		say "	 1. $(L "把配置文件放入本仓库（如 .bashrc）" "put the config file into this repo (e.g. .bashrc)")"
-		say "	 2. $(L "在 ${prog} 的 LINKS 数组中添加一行：" "add a line to the LINKS array in ${prog}:")"
-		say '			".bashrc:$HOME/.bashrc"'
-		say "	 3. $(L "重新运行 ${prog}" "re-run ${prog}")"
+		warn "配置注册表（LINKS）为空，没有可部署的配置。"
+		info "添加新配置的步骤："
+		info "  1. 把配置文件放入本仓库（如 .bashrc）"
+		info "  2. 在 ${prog} 的 LINKS 数组中添加一行："
+		info '     ".bashrc:$HOME/.bashrc"'
+		info "  3. 重新运行 ${prog}"
 		exit 0
 	fi
 
 	if (( UNINSTALL )); then
 		uninstall
-		return 0
+		exit 0
 	fi
 
-	msg "$(L "仓库目录：${REPO_DIR}" "Repo directory: ${REPO_DIR}")"
-	msg "$(L "开始部署 ${#LINKS[@]} 项配置…" "Deploying ${#LINKS[@]} items…")"
-	printf '\n'
-
-	i=0
+	info "开始部署 ${#LINKS[@]} 项配置..."
+	local changed=0
 	for entry in "${LINKS[@]}"; do
-		i=$((i + 1))
-		if (( i > 1 )); then printf '\n'; fi
-		section "[${i}/${#LINKS[@]}] ${entry%%:*}"
-		deploy "${entry%%:*}" "${entry#*:}" || true
+		# 保存当前输出流中是否有动作，以便统计
+		before_lines=$( { deploy "${entry%%:*}" "${entry#*:}" || true; } 2>&1 | tee /dev/stderr | wc -l )
+		if (( before_lines > 0 )); then
+			changed=$((changed + 1))
+		fi
 	done
 
-	printf '\n'
-	say_ok "$(L "共处理 ${#LINKS[@]} 项配置" "Processed ${#LINKS[@]} items")"
+	info "完成：改动 ${changed} 项，跳过 $(( ${#LINKS[@]} - changed )) 项"
 	if (( ! DRY_RUN )); then
-		say "$(L "如需一键卸载全部链接：${prog} --uninstall" "To uninstall all links at once: ${prog} --uninstall")"
+		info "如需一键卸载全部链接：${prog} --uninstall"
 	fi
 }
 
