@@ -10,6 +10,3 @@
 [submodule "omz"]
 	path = omz
 	url = https://github.com/yaocccc/omz.git
-[submodule "FiraCode.git"]
-	path = FiraCode
-	url = https://github.com/tonsky/FiraCode.git
