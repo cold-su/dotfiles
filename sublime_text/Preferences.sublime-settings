@@ -12,7 +12,7 @@
 	"tab_size": 4,
 	"translate_tabs_to_spaces": false,
 	"font_size": 12,
-	"theme": "auto",
+	"theme": "Default Dark.sublime-theme",
 	"color_scheme": "Catppuccin Frappe.sublime-color-scheme",
 	"ignored_packages":
 	[
