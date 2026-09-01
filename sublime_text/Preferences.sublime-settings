@@ -1,18 +1,27 @@
 {
-	"font_face": "FiraCode Nerd Font",
+
+	// "font_face": "霞鹜文楷等宽", // ？这里写 LXGW WenKai Mono 不会生效
+
+	// 一款合成字体，将 FiraCode Nerd Font Mono 的拉丁字母、符号、Nerd Font 图标及编程连字
+	// 与 LXGW Wenkai Mono（霞鹜文楷等宽）的 CJK 字形合二为一
+	// https://github.com/SOV710/smile-nerd-font.git
+	"font_face": "Smile Nerd Font Mono",
 	"font_options": ["no_italic"],
+
 	"focus_on_file_drop": true,
 	"tab_size": 4,
 	"translate_tabs_to_spaces": false,
-	"font_size": 11,
+	"font_size": 12,
 	"theme": "auto",
 	"color_scheme": "Catppuccin Frappe.sublime-color-scheme",
 	"ignored_packages":
 	[
 		"Vintage",
-	],
-	"index_files": true,
+	],	"index_files": true,
+
+	// Linux 下不开启加速会巨卡
 	"hardware_acceleration": "opengl",
+	
 	"dark_theme": "Default Dark.sublime-theme",
 	"light_theme": "Default.sublime-theme",
 }
