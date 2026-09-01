@@ -4,7 +4,7 @@
     "default_config": {
         "linux": "Zsh",    // login shell
         "osx": null,      // login shell
-        "windows": "Command Prompt"
+        "windows": null
     },
     // a list of available shells to execute
     "shell_configs": [
@@ -22,41 +22,6 @@
             "enable": true,
             "platforms": ["linux", "osx"]
         },
-        {
-            "name": "Command Prompt",
-            "cmd": "cmd.exe",
-            "env": {},
-            "enable": true,
-            "platforms": ["windows"]
-        },
-        {
-            "name": "PowerShell Core",
-            "cmd": "pwsh.exe",
-            "env": {},
-            "enable": true,
-            "platforms": ["windows"]
-        },
-        {
-            "name": "PowerShell",
-            "cmd": "powershell.exe",
-            "env": {},
-            "enable": true,
-            "platforms": ["windows"]
-        },
-        {
-            "name": "Cmder",
-            "cmd": ["cmd.exe", "/k", "%CMDER_ROOT%\\vendor\\init.bat"],
-            "env": {},
-            "enable": false,
-            "platforms": ["windows"]
-        },
-        {
-            "name": "WSL Login Shell",
-            "cmd": "wsl.exe",
-            "env": {},
-            "enable": true,
-            "platforms": ["windows"]
-        }
     ],
 
     "256color": true,
@@ -87,7 +52,7 @@
     // use ctrl+c to copy
     // use ctrl+v to paste  (use ctrl+alt+v to send ctrl+v instead)
     // use ctrl+pagedown/pageup to change tabs
-    "natural_keyboard": true,
+    "natural_keyboard": false,
 
     // Terminus sends all keybinds of the form `ctrl+[a-z]` to the terminal process
     // directly. Windows and Linux users sometimes may want to preserve some of such
