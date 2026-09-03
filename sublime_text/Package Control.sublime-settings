@@ -24,6 +24,6 @@
 		// Repo: https://github.com/wbond/package_control_channel
 		"https://packagecontrol.io/channel_v3.json"
 	],
-	"http_proxy": "http://127.0.0.1:10808",
-	"https_proxy": "https://127.0.0.1:10808",
+	// "http_proxy": "http://127.0.0.1:10808",
+	// "https_proxy": "https://127.0.0.1:10808",
 }
