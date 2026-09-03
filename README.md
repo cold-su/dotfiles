@@ -42,6 +42,13 @@ https://www.sublimetext.com/docs/linux_repositories.html#pacman
 
 https://www.sublimemerge.com/docs/linux_repositories#pacman
 
+## pacman
+
+```sh
+sudo vim /etc/pacman.conf
+```
+
+在 `/etc/pacman.conf` 的 Misc Option（杂项设置）中加入 `ILoveCandy`
 
 
 [黑洞]: https://codeberg.org/fairyglade/ly-community/src/branch/main/animations/dur/blackhole-smooth-240x67.dur
