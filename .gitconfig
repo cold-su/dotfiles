@@ -7,6 +7,6 @@
 [commit]
 	gpgsign = true
 [core]
-	editor = nvim
+	editor = vim
 [log]
 	date = format:%Y/%m/%d %H:%M:%S
