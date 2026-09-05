@@ -8,6 +8,8 @@
 		"LSP",
 		"LSP-clangd",
 		"Origami",
+		"Package Control",
+		"Terminus",
 		"TreeSitter",
 		"Vue",
 	],
