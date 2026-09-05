@@ -8,5 +8,6 @@
 	gpgsign = true
 [core]
 	editor = vim
+	autocrlf = input
 [log]
 	date = format:%Y/%m/%d %H:%M:%S
