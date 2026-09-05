@@ -229,8 +229,10 @@ done
 printf '\n'
 section "汇总"
 msg "${n_ok} 个仓库同步成功，${n_skip} 个跳过，${n_fail} 个失败"
+notify-send "${n_ok} 个仓库同步成功，${n_skip} 个跳过，${n_fail} 个失败"
 if (( n_fail > 0 )); then
     err "存在失败的仓库；请查看上方错误信息"
+    notify-send "存在失败的仓库；请查看上方错误信息"
     exit 1
 fi
 exit 0
