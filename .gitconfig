@@ -1,7 +1,3 @@
-[user]
-	email = resung@qq.com
-	name = coldsu
-	signingkey = 306517308+coldsyu@users.noreply.github.com
 [credential]
 	helper = store
 [commit]
