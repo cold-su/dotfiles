@@ -1,9 +1,6 @@
 [submodule "rime-ice.git"]
 	path = rime-ice
 	url = https://github.com/iDvel/rime-ice.git
-[submodule "nvim.git"]
-	path = nvim
-	url = https://github.com/cold-su/nvim.git
 [submodule "omz"]
 	path = omz
 	url = https://github.com/yaocccc/omz.git

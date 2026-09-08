@@ -20,7 +20,6 @@
 LINKS=(
 	".bashrc:$HOME/.bashrc"
 	"rime-ice:$HOME/.local/share/fcitx5/rime"
-	"nvim:$HOME/.config/nvim"
 	".gitconfig:$HOME/.gitconfig"
 	"kitty:$HOME/.config/kitty"
 	"dolphinui.rc:$HOME/.local/share/kxmlgui5/dolphin/dolphinui.rc"
