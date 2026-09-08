@@ -7,7 +7,7 @@
 
     // Open a terminal tab at current file directory
     {
-        "keys": ["ctrl+shift+t"], "command": "terminus_open", "args": {
+        "keys": ["ctrl+t"], "command": "terminus_open", "args": {
             "cwd": "${file_path:${folder}}"
         }
     },
